@@ -10,6 +10,7 @@ app.use(express.static(__dirname + '/public'));
 
 //Routes
 app.get('/',routes.index);
+app.get('/about',routes.about);
 
 app.listen(app.get('port'),function(){
     console.log("Node app is running at localhost:" + app.get('port'));
