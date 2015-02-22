@@ -1,19 +1,21 @@
 {
-    "name": "project1",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC"
-        ,
-    "dependencies": {
-        "express": "~4.9.x",
-        "jade": "^1.9.2"
-    },
-    "engines": {
-        "node": "0.10.x"
-    }
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^0.9.1",
+    "express": "~4.9.x",
+    "jade": "^1.9.2",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
 }
