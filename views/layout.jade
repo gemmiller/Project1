@@ -4,14 +4,7 @@ html
         title= title
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
     body
-        div(class='navbar navbar-inverse')
-            div(class='navbar-brand')= title
-            div(id='navbar' class='navbar-collapse collapse')
-                ul(class='nav navbar-nav navbar-right')
-                    li
-                        a(href='/') Home
-                    li
-                        a(href='/about') About
+        div(id='navbar')
         block content
         script(ref='/bootstrap/js/bootstrap.js')
         script(src='bundle.js')
