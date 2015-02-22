@@ -1,1 +1,1 @@
-document.write('it works.');
+var React = require('react');
