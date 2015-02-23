@@ -18,9 +18,13 @@ var navlinks = require('./data/navlinks.js');
 //Render Components=======================================
 
 //Render Navbar
-React.render(<Navbar navData={navlinks} projectName='My First Drawing'/>, document.getElementById('navbar'));
+var navbarMount = document.getElementById('navbar');
+if(navbarMount)
+ React.render(<Navbar navData={navlinks} projectName='My First Drawing'/>, navbarMount);
 
 //Render DrawingUtility
-React.render(<DrawingUtility/>,document.getElementById('drawingUtility'));
+var drawingUtilityMount = document.getElementById('drawingUtility');
+if(drawingUtilityMount)
+    React.render(<DrawingUtility/>,drawingUtilityMount);
 
 

@@ -64,10 +64,14 @@
 	//Render Components=======================================
 
 	//Render Navbar
-	React.render(React.createElement(Navbar, {navData: navlinks, projectName: "My First Drawing"}), document.getElementById('navbar'));
+	var navbarMount = document.getElementById('navbar');
+	if(navbarMount)
+	 React.render(React.createElement(Navbar, {navData: navlinks, projectName: "My First Drawing"}), navbarMount);
 
 	//Render DrawingUtility
-	React.render(React.createElement(DrawingUtility, null),document.getElementById('drawingUtility'));
+	var drawingUtilityMount = document.getElementById('drawingUtility');
+	if(drawingUtilityMount)
+	    React.render(React.createElement(DrawingUtility, null),drawingUtilityMount);
 
 
 
