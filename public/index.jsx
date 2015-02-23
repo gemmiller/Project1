@@ -11,6 +11,7 @@ var React = require('react');
 //Components==============================================
 var Navbar = require('./js/Navbar.jsx');
 var Sidebar = require('./js/Sidebar.jsx');
+var DrawingSpace = require('./js/DrawingSpace.jsx');
 
 //Data====================================================
 var navlinks = require('./data/navlinks.js');
@@ -23,5 +24,8 @@ React.render(<Navbar navData={navlinks} projectName='My First Drawing'/>, docume
 
 //Render Sidebar
 React.render(<Sidebar sections={sections}/>,document.getElementById('sidebar'));
+
+//Render DrawingSpace
+React.render(<DrawingSpace/>,document.getElementById('drawingSpace'));
 
 

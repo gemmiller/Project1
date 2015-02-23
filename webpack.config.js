@@ -4,6 +4,9 @@ module.exports ={
         path: __dirname+'/public',
         filename: 'bundle.js'
     }, 
+    externals:{
+        'fabric':'fabric'
+    },
     module:{
         loaders:[
             {test:/\.css$/,loader:'style!css'},
