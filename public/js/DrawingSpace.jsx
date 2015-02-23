@@ -14,7 +14,7 @@ var DrawingSpace = React.createClass({
     componentDidMount: function(){
         //Create a rectangle
         var canvas = new fabric.Canvas('canvas');
-        var drawingSpace = document.getElementById('drawingSpace');
+        var drawingSpace = document.getElementById('drawingUtility');
         var width = drawingSpace.clientWidth; 
         var height = window.screen.height;
         canvas.setHeight(height);
@@ -31,7 +31,9 @@ var DrawingSpace = React.createClass({
     },
     render: function(){
                 return(
-            <canvas id='canvas'></canvas>
+                    <div className='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main'>
+                    <canvas id='canvas'></canvas>
+                    </div>
             );
     }
 });
