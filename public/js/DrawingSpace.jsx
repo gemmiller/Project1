@@ -11,23 +11,34 @@ var $ = require('jquery');
 
 //DrawingSpace component
 var DrawingSpace = React.createClass({
+    getInitialState:function(){
+        return {canvas:null};
+    },
+    renderItems:function(items){
+        var i = 0;
+        for(i=0;i < items.length;i++){
+            if(items[i]);
+            this.state.canvas.add(items[i]);
+        }
+        this.state.canvas.renderAll();
+    },
     componentDidMount: function(){
-        //Create a rectangle
+        //Set up Canvas
         var canvas = new fabric.Canvas('canvas');
         var drawingSpace = document.getElementById('drawingUtility');
         var width = drawingSpace.clientWidth; 
         var height = window.screen.height;
         canvas.setHeight(height);
         canvas.setWidth(width);
-        var rect = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: 'red',
-            width: 20,
-            height: 20
-        });
-        canvas.add(rect);
-        canvas.renderAll();
+
+        //Set state with canvas
+        this.setState({canvas:canvas});
+    },
+    componentDidUpdate(){
+        if(!this.props.items)
+            return;
+
+        this.renderItems(this.props.items);
     },
     render: function(){
                 return(

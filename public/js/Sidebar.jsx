@@ -1,13 +1,28 @@
 /**
  * @jsx React.DOM
  */
+
+//Libaries
 var React = require('react');
+var fabric = require('fabric');
 
 var SidebarSection = React.createClass({
+    addSquare:function(e){
+        e.preventDefault();
+        var rect = new fabric.Rect({
+            left: 100,
+            top: 100,
+            fill: 'red',
+            width: 75,
+            height: 75
+        });
+        this.props.addItem(rect);
+    },
     render:function(){
+        var self = this;
         var listItems = this.props.listItems.map(function(item){
             return(
-                <li><a href={item.href}>{item.displayName}</a></li>
+                <li><a href={item.link} onClick={self.addSquare}>{item.displayName}</a></li>
             );
         });
 
@@ -21,9 +36,10 @@ var SidebarSection = React.createClass({
 
 var Sidebar = React.createClass({
     render:function(){
+        var self = this;
         var sections = this.props.sections.map(function(section){
                 return(
-                        <SidebarSection listItems={section} />
+                        <SidebarSection addItem={self.props.addItem} listItems={section} />
                     );
         });
 

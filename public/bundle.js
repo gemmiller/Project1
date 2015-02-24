@@ -195,11 +195,19 @@
 	var Sidebar = __webpack_require__(10);
 
 	var DrawingUtility = React.createClass({displayName: "DrawingUtility",
+	    getInitialState:function(){
+	        return {items:[]}
+	    },
+	    addItem:function(item){
+	       var items = this.state.items;
+	       items.push(item);
+	       this.setState({items: items});
+	    },
 	    render:function(){
 	        return(
 	                React.createElement("div", {className: "row"}, 
-	                    React.createElement(DrawingSpace, null), 
-	                    React.createElement(Sidebar, {sections: sections})
+	                    React.createElement(DrawingSpace, {items: this.state.items}), 
+	                    React.createElement(Sidebar, {addItem: this.addItem, sections: sections})
 	                )
 	            );
 	    }
@@ -254,43 +262,11 @@
 	var  sidebarMain = [
 	    {
 	        href:"#",
-	        displayName:"Main"
-	    },
-	    {
-	        href:"#",
-	        displayName:"Reports"
-	    },
-	    {
-	        href:"#",
-	        displayName:"Analytics"
-	    },
-	    {
-	        href:"#",
-	        displayName:"Export"
+	        displayName:"Square"
 	    }
 	];
-	var sidebarSub1 = [
-	    {
-	        href:"#",
-	        displayName:"Nav item"
-	    },
 
-	    {
-	        href:"#",
-	        displayName:"Nav item 2"
-	    },
-
-	    {
-	        href:"#",
-	        displayName:"Nav item 3"
-	    },
-
-	    {
-	        href:"#",
-	        displayName:"Nav item 4"
-	    }
-	];
-	module.exports = [sidebarMain,sidebarSub1];
+	module.exports = [sidebarMain];
 
 
 
@@ -507,23 +483,34 @@
 
 	//DrawingSpace component
 	var DrawingSpace = React.createClass({displayName: "DrawingSpace",
+	    getInitialState:function(){
+	        return {canvas:null};
+	    },
+	    renderItems:function(items){
+	        var i = 0;
+	        for(i=0;i < items.length;i++){
+	            if(items[i]);
+	            this.state.canvas.add(items[i]);
+	        }
+	        this.state.canvas.renderAll();
+	    },
 	    componentDidMount: function(){
-	        //Create a rectangle
+	        //Set up Canvas
 	        var canvas = new fabric.Canvas('canvas');
 	        var drawingSpace = document.getElementById('drawingUtility');
 	        var width = drawingSpace.clientWidth; 
 	        var height = window.screen.height;
 	        canvas.setHeight(height);
 	        canvas.setWidth(width);
-	        var rect = new fabric.Rect({
-	            left: 100,
-	            top: 100,
-	            fill: 'red',
-	            width: 20,
-	            height: 20
-	        });
-	        canvas.add(rect);
-	        canvas.renderAll();
+
+	        //Set state with canvas
+	        this.setState({canvas:canvas});
+	    },
+	    componentDidUpdate:function(){
+	        if(!this.props.items)
+	            return;
+
+	        this.renderItems(this.props.items);
 	    },
 	    render: function(){
 	                return(
@@ -545,13 +532,28 @@
 	/** @jsx React.DOM *//**
 	 * @jsx React.DOM
 	 */
+
+	//Libaries
 	var React = __webpack_require__(6);
+	var fabric = __webpack_require__(13);
 
 	var SidebarSection = React.createClass({displayName: "SidebarSection",
+	    addSquare:function(e){
+	        e.preventDefault();
+	        var rect = new fabric.Rect({
+	            left: 100,
+	            top: 100,
+	            fill: 'red',
+	            width: 75,
+	            height: 75
+	        });
+	        this.props.addItem(rect);
+	    },
 	    render:function(){
+	        var self = this;
 	        var listItems = this.props.listItems.map(function(item){
 	            return(
-	                React.createElement("li", null, React.createElement("a", {href: item.href}, item.displayName))
+	                React.createElement("li", null, React.createElement("a", {href: item.link, onClick: self.addSquare}, item.displayName))
 	            );
 	        });
 
@@ -565,9 +567,10 @@
 
 	var Sidebar = React.createClass({displayName: "Sidebar",
 	    render:function(){
+	        var self = this;
 	        var sections = this.props.sections.map(function(section){
 	                return(
-	                        React.createElement(SidebarSection, {listItems: section})
+	                        React.createElement(SidebarSection, {addItem: self.props.addItem, listItems: section})
 	                    );
 	        });
 
