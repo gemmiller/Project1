@@ -35,6 +35,12 @@ var DrawingSpace = React.createClass({
         this.setState({canvas:canvas});
     },
     componentDidUpdate(){
+
+        if(this.props.drawingState==='line')
+            this.state.canvas.isDrawingMode = true;
+        if(this.props.drawingState==='cursor')
+            this.state.canvas.isDrawingMode = false;
+
         if(!this.props.items)
             return;
 
@@ -43,7 +49,7 @@ var DrawingSpace = React.createClass({
     render: function(){
                 return(
                     <div className='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main'>
-                    <canvas id='canvas'></canvas>
+                        <canvas id='canvas'></canvas>
                     </div>
             );
     }

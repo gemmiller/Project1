@@ -7,22 +7,18 @@ var React = require('react');
 var fabric = require('fabric');
 
 var SidebarSection = React.createClass({
-    addSquare:function(e){
-        e.preventDefault();
-        var rect = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: 'red',
-            width: 75,
-            height: 75
-        });
-        this.props.addItem(rect);
+    getInitialState:function(){
+        return {active:'cursor'};
+    },
+    changeState:function(state){
+        this.props.changeDrawingState(state);
+        this.setState({active:state});
     },
     render:function(){
         var self = this;
         var listItems = this.props.listItems.map(function(item){
             return(
-                <li><a href={item.link} onClick={self.addSquare}>{item.displayName}</a></li>
+                <li className ={self.state.active === item.state?'active':''}><a href={item.link} onClick={self.changeState.bind(self,item.state)}>{item.displayName}</a></li>
             );
         });
 
@@ -39,7 +35,7 @@ var Sidebar = React.createClass({
         var self = this;
         var sections = this.props.sections.map(function(section){
                 return(
-                        <SidebarSection addItem={self.props.addItem} listItems={section} />
+                        <SidebarSection changeDrawingState={self.props.changeDrawingState} listItems={section} />
                     );
         });
 

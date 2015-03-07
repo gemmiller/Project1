@@ -1,8 +1,15 @@
 var  sidebarMain = [
     {
         href:"#",
-        displayName:"Square"
+        displayName:"Cursor",
+        state: "cursor"
+    },
+    {
+        href:'#',
+        displayName:'Line',
+        state:'line'
     }
+
 ];
 
 module.exports = [sidebarMain];

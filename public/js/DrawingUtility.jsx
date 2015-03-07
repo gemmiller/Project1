@@ -14,18 +14,16 @@ var Sidebar = require('./Sidebar.jsx');
 
 var DrawingUtility = React.createClass({
     getInitialState:function(){
-        return {items:[]}
+        return {drawingState:'cursor'}
     },
-    addItem:function(item){
-       var items = this.state.items;
-       items.push(item);
-       this.setState({items: items});
+    changeDrawingState:function(drawingState){
+       this.setState({drawingState: drawingState});
     },
     render:function(){
         return(
                 <div className='row'>
-                    <DrawingSpace items={this.state.items}/>
-                    <Sidebar addItem={this.addItem} sections={sections}/>
+                    <DrawingSpace drawingState={this.state.drawingState}/>
+                    <Sidebar changeDrawingState={this.changeDrawingState} sections={sections}/>
                 </div>
             );
     }

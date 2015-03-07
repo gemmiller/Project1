@@ -196,18 +196,16 @@
 
 	var DrawingUtility = React.createClass({displayName: "DrawingUtility",
 	    getInitialState:function(){
-	        return {items:[]}
+	        return {drawingState:'cursor'}
 	    },
-	    addItem:function(item){
-	       var items = this.state.items;
-	       items.push(item);
-	       this.setState({items: items});
+	    changeDrawingState:function(drawingState){
+	       this.setState({drawingState: drawingState});
 	    },
 	    render:function(){
 	        return(
 	                React.createElement("div", {className: "row"}, 
-	                    React.createElement(DrawingSpace, {items: this.state.items}), 
-	                    React.createElement(Sidebar, {addItem: this.addItem, sections: sections})
+	                    React.createElement(DrawingSpace, {drawingState: this.state.drawingState}), 
+	                    React.createElement(Sidebar, {changeDrawingState: this.changeDrawingState, sections: sections})
 	                )
 	            );
 	    }
@@ -262,8 +260,15 @@
 	var  sidebarMain = [
 	    {
 	        href:"#",
-	        displayName:"Square"
+	        displayName:"Cursor",
+	        state: "cursor"
+	    },
+	    {
+	        href:'#',
+	        displayName:'Line',
+	        state:'line'
 	    }
+
 	];
 
 	module.exports = [sidebarMain];
@@ -507,6 +512,12 @@
 	        this.setState({canvas:canvas});
 	    },
 	    componentDidUpdate:function(){
+
+	        if(this.props.drawingState==='line')
+	            this.state.canvas.isDrawingMode = true;
+	        if(this.props.drawingState==='cursor')
+	            this.state.canvas.isDrawingMode = false;
+
 	        if(!this.props.items)
 	            return;
 
@@ -515,7 +526,7 @@
 	    render: function(){
 	                return(
 	                    React.createElement("div", {className: "col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"}, 
-	                    React.createElement("canvas", {id: "canvas"})
+	                        React.createElement("canvas", {id: "canvas"})
 	                    )
 	            );
 	    }
@@ -538,22 +549,18 @@
 	var fabric = __webpack_require__(13);
 
 	var SidebarSection = React.createClass({displayName: "SidebarSection",
-	    addSquare:function(e){
-	        e.preventDefault();
-	        var rect = new fabric.Rect({
-	            left: 100,
-	            top: 100,
-	            fill: 'red',
-	            width: 75,
-	            height: 75
-	        });
-	        this.props.addItem(rect);
+	    getInitialState:function(){
+	        return {active:'cursor'};
+	    },
+	    changeState:function(state){
+	        this.props.changeDrawingState(state);
+	        this.setState({active:state});
 	    },
 	    render:function(){
 	        var self = this;
 	        var listItems = this.props.listItems.map(function(item){
 	            return(
-	                React.createElement("li", null, React.createElement("a", {href: item.link, onClick: self.addSquare}, item.displayName))
+	                React.createElement("li", {className: self.state.active === item.state?'active':''}, React.createElement("a", {href: item.link, onClick: self.changeState.bind(self,item.state)}, item.displayName))
 	            );
 	        });
 
@@ -570,7 +577,7 @@
 	        var self = this;
 	        var sections = this.props.sections.map(function(section){
 	                return(
-	                        React.createElement(SidebarSection, {addItem: self.props.addItem, listItems: section})
+	                        React.createElement(SidebarSection, {changeDrawingState: self.props.changeDrawingState, listItems: section})
 	                    );
 	        });
 
